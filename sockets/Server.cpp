@@ -99,21 +99,29 @@ public:
             ballX = 50; // For demo, assuming the ball position remains constant
             ballY = 25; // For demo, assuming the ball position remains constant
 
-            sendGameState(ballX, ballY, serverPaddleY);
+            sendGameState(ballX, ballY, serverPaddleY, clientPaddleY);
+
+            std::string receivedClientPaddleY = receiveFromClient();
+            if (!receivedClientPaddleY.empty()) {
+                sscanf(receivedClientPaddleY.c_str(), "%d", &clientPaddleY);
+            }
 
             // Output positions for demonstration
             std::cout << "Ball Position: X=" << ballX << ", Y=" << ballY << std::endl;
             std::cout << "Server Paddle Position: Y=" << serverPaddleY << std::endl;
 
-            usleep(10000);
+            // Update client paddle position
+            std::cout << "Client Paddle Position (Updated by Server): Y=" << clientPaddleY << std::endl;
+            serverPaddleY++;
         }
 
         closeServer();
         endwin();
     }
 
-    void sendGameState(int ballX, int ballY, int serverPaddleY) {
-        std::string gameState = std::to_string(ballX) + "," + std::to_string(ballY) + "," + std::to_string(serverPaddleY);
+
+    void sendGameState(int ballX, int ballY, int serverPaddleY, int clientPaddleY) {
+        std::string gameState = std::to_string(ballX) + "," + std::to_string(ballY) + "," + std::to_string(serverPaddleY) + "," + std::to_string(clientPaddleY);
         sendToClient(gameState.c_str());
     }
 };
