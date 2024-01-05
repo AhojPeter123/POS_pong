@@ -83,14 +83,14 @@ public:
 
             std::string gameState = receiveFromServer();
 
-            int receivedBallX, receivedBallY;
-            sscanf(gameState.c_str(), "%d,%d,%d", &receivedBallX, &receivedBallY, &serverPaddleY);
+            sscanf(gameState.c_str(), "%d,%d,%d", &ballX, &ballY, &serverPaddleY);
 
             // Output positions for demonstration
-            std::cout << "Ball Position: X=" << receivedBallX << ", Y=" << receivedBallY << std::endl;
+            std::cout << "Ball Position: X=" << ballX << ", Y=" << ballY << std::endl;
             std::cout << "Client Paddle Position: Y=" << clientPaddleY << std::endl;
+            std::cout << "Server Paddle Position: Y=" << serverPaddleY << std::endl;
 
-            usleep(10000);
+            clientPaddleY++;
         }
 
         closeClient();
