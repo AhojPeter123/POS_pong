@@ -8,4 +8,4 @@ add_executable(
         sockets/Server.cpp
 )
 
-target_link_libraries(semestralka_pong ncurses)
+target_link_libraries(semestralka_pong pthread)

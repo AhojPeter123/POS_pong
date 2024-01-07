@@ -1,17 +1,45 @@
 #include <iostream>
-#include <cstring>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include <ncurses.h>
+#include <thread>
+#include <mutex>
+#include "../game/GameState.h"
 
 class Server {
 private:
     int serverSocket;
-    int clientSocket;
+    int clientSocket1;
+    int clientSocket2;
+    std::mutex paddleLock1;
+    std::mutex paddleLock2;
+    GameState gameState;
+
+    void setClientPaddlePosition(int clientSocket, int& paddle, std::mutex& paddleLock) {
+        while (gameState.running) {
+            int receivedInt;
+            ssize_t bytesReceived = recv(clientSocket, &receivedInt, sizeof(receivedInt), 0);
+            if (bytesReceived == -1) {
+                std::cerr << "Error receiving data\n";
+            } else {
+                std::lock_guard<std::mutex> lock(paddleLock);
+                std::cout << "Received: " << receivedInt << " from client " << clientSocket << std::endl;
+
+                paddle = receivedInt;
+            }
+        }
+    }
 
 public:
     Server() {
+        gameState.ballX = 50;
+        gameState.ballY = 25;
+        gameState.paddle1 = 10;
+        gameState.paddle2 = 10;
+        gameState.running = 1;
+        gameState.score1 = 0;
+        gameState.score2 = 0;
+
         serverSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (serverSocket == -1) {
             std::cerr << "Error creating socket\n";
@@ -28,101 +56,64 @@ public:
             std::cerr << "Error binding\n";
         }
 
-        if (listen(serverSocket, 1) == -1) {
+        if (listen(serverSocket, 2) == -1) { // Listen for two clients
             std::cerr << "Error listening\n";
         }
 
-        std::cout << "Waiting for client to connect...\n";
+        std::cout << "Waiting for clients to connect...\n";
 
-        sockaddr_in clientAddr;
-        socklen_t clientAddrLen = sizeof(clientAddr);
-        clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &clientAddrLen);
-        if (clientSocket == -1) {
-            std::cerr << "Error accepting connection\n";
+        sockaddr_in clientAddr1, clientAddr2;
+        socklen_t clientAddrLen = sizeof(clientAddr1);
+
+        clientSocket1 = accept(serverSocket, (sockaddr*)&clientAddr1, &clientAddrLen);
+        if (clientSocket1 == -1) {
+            std::cerr << "Error accepting first client connection\n";
         }
+        std::cout << "First client connected\n";
 
-        std::cout << "Client connected\n";
+        clientSocket2 = accept(serverSocket, (sockaddr*)&clientAddr2, &clientAddrLen);
+        if (clientSocket2 == -1) {
+            std::cerr << "Error accepting second client connection\n";
+        }
+        std::cout << "Second client connected\n";
+
+        std::thread thread1(&Server::setClientPaddlePosition,
+                            this, clientSocket1,
+                            std::ref(gameState.paddle1),
+                            std::ref(paddleLock1));
+
+        std::thread thread2(&Server::setClientPaddlePosition,
+                            this, clientSocket2,
+                            std::ref(gameState.paddle2),
+                            std::ref(paddleLock2));
+
+        thread1.detach();
+        thread2.detach();
     }
 
-    void sendToClient(const char* message) {
-        send(clientSocket, message, strlen(message), 0);
-    }
-
-    std::string receiveFromClient() {
-        char buffer[1024];
-        ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
-        if (bytesReceived == -1) {
-            std::cerr << "Error receiving data\n";
-            return "";
-        } else {
-            buffer[bytesReceived] = '\0';
-            return std::string(buffer);
-        }
+    void sendGameState(int clientSocket, const GameState& gameState) {
+        send(clientSocket, &gameState, sizeof(gameState), 0);
     }
 
     void closeServer() {
-        close(clientSocket);
+        close(clientSocket1);
+        close(clientSocket2);
         close(serverSocket);
     }
 
-    void handleUserInput(int& serverPaddleY) {
-        int ch = getch();
-
-        switch (ch) {
-            case KEY_UP:
-                serverPaddleY -= 1;
-                break;
-            case KEY_DOWN:
-                serverPaddleY += 1;
-                break;
-            default:
-                break;
-        }
-    }
-
     void gameLoop() {
-        int serverPaddleY = 10;
-        int clientPaddleY = 10;
-        int ballX = 50;
-        int ballY = 25;
+        while (gameState.running) {
 
-        initscr();
-        raw();
-        keypad(stdscr, TRUE);
-        noecho();
+            sendGameState(clientSocket1, gameState);
+            sendGameState(clientSocket2, gameState);
 
-        timeout(0); // Set non-blocking input
+            std::cout << "Player 1 Paddle Position: " << gameState.paddle1 << std::endl;
+            std::cout << "Player 2 Paddle Position: " << gameState.paddle2 << std::endl;
 
-        while (true) {
-            handleUserInput(serverPaddleY);
-
-            ballX = 50; // For demo, assuming the ball position remains constant
-            ballY = 25; // For demo, assuming the ball position remains constant
-
-            sendGameState(ballX, ballY, serverPaddleY, clientPaddleY);
-
-            std::string receivedClientPaddleY = receiveFromClient();
-            if (!receivedClientPaddleY.empty()) {
-                sscanf(receivedClientPaddleY.c_str(), "%d", &clientPaddleY);
-            }
-
-            // Output positions for demonstration
-            std::cout << "Ball Position: X=" << ballX << ", Y=" << ballY << std::endl;
-            std::cout << "Server Paddle Position: Y=" << serverPaddleY << std::endl;
-
-            // Update client paddle position
-            std::cout << "Client Paddle Position (Updated by Server): Y=" << clientPaddleY << std::endl;
-            serverPaddleY++;
+            usleep(10000);
         }
 
         closeServer();
-        endwin();
-    }
-
-
-    void sendGameState(int ballX, int ballY, int serverPaddleY, int clientPaddleY) {
-        std::string gameState = std::to_string(ballX) + "," + std::to_string(ballY) + "," + std::to_string(serverPaddleY) + "," + std::to_string(clientPaddleY);
-        sendToClient(gameState.c_str());
     }
 };
 
