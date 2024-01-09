@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/tmp/tmp.eQKtnpe31F/main.cpp" "/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles/semestralka_pong.dir/main.cpp.o"
+  "/tmp/tmp.eQKtnpe31F/sockets/Server.cpp" "/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

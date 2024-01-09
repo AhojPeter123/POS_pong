@@ -76,27 +76,27 @@ include CMakeFiles/semestralka_pong.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/semestralka_pong.dir/flags.make
 
-CMakeFiles/semestralka_pong.dir/main.cpp.o: CMakeFiles/semestralka_pong.dir/flags.make
-CMakeFiles/semestralka_pong.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/semestralka_pong.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/semestralka_pong.dir/main.cpp.o -c /tmp/tmp.eQKtnpe31F/main.cpp
+CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o: CMakeFiles/semestralka_pong.dir/flags.make
+CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o: ../sockets/Server.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o -c /tmp/tmp.eQKtnpe31F/sockets/Server.cpp
 
-CMakeFiles/semestralka_pong.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/semestralka_pong.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.eQKtnpe31F/main.cpp > CMakeFiles/semestralka_pong.dir/main.cpp.i
+CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.eQKtnpe31F/sockets/Server.cpp > CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.i
 
-CMakeFiles/semestralka_pong.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/semestralka_pong.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.eQKtnpe31F/main.cpp -o CMakeFiles/semestralka_pong.dir/main.cpp.s
+CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.eQKtnpe31F/sockets/Server.cpp -o CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.s
 
 # Object files for target semestralka_pong
 semestralka_pong_OBJECTS = \
-"CMakeFiles/semestralka_pong.dir/main.cpp.o"
+"CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o"
 
 # External object files for target semestralka_pong
 semestralka_pong_EXTERNAL_OBJECTS =
 
-semestralka_pong: CMakeFiles/semestralka_pong.dir/main.cpp.o
+semestralka_pong: CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o
 semestralka_pong: CMakeFiles/semestralka_pong.dir/build.make
 semestralka_pong: CMakeFiles/semestralka_pong.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable semestralka_pong"

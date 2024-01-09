@@ -1,3 +1,3 @@
-/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles/edit_cache.dir
-/tmp/tmp.eQKtnpe31F/cmake-build-debug/CMakeFiles/semestralka_pong.dir
+C:/skola/POS/semestralka_pong/cmake-build-debug/CMakeFiles/semestralka_pong.dir
+C:/skola/POS/semestralka_pong/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/skola/POS/semestralka_pong/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/semestralka_pong.dir/main.cpp.o -o semestralka_pong 
+/usr/bin/c++ -g CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o -o semestralka_pong  -lpthread 

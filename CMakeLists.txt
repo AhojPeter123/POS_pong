@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(
         semestralka_pong
-        sockets/Server.cpp
+        Server.cpp
 )
 
 target_link_libraries(semestralka_pong pthread)

@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/semestralka_pong.dir/main.cpp.o"
+  "CMakeFiles/semestralka_pong.dir/sockets/Server.cpp.o"
   "semestralka_pong"
   "semestralka_pong.pdb"
 )
