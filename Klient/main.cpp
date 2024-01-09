@@ -85,7 +85,7 @@ public:
         std::cout << "Connected to server\n";
     }
 
-    void receiveGameStateThread() {
+    void receiveGameState() {
         std::cout <<"RECEIVE THREAD STARTED..."<< std::endl;
 
         GameState tempGameState;
@@ -169,7 +169,7 @@ public:
         while(gameState.running) {
             handleInputKey();
 
-            receiveGameStateThread();
+            receiveGameState();
 
             displayGameState(renderer);
             SDL_RenderPresent(renderer);
